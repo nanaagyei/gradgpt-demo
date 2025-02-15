@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
               <GraduationCap className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">GradGPT</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">GradGPT.pro</span>
             </div>
             
             <div className="hidden md:flex items-center space-x-8">
