@@ -3,7 +3,11 @@ import { UserPlus } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
 import toast from 'react-hot-toast';
 
-export default function SignUpForm() {
+interface SignUpFormProps {
+  onSuccess: () => void;
+}
+
+export default function SignUpForm({ onSuccess }: SignUpFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -20,6 +24,10 @@ export default function SignUpForm() {
     setIsLoading(true);
     try {
       await signUp(email, password);
+      toast.success('Account created successfully!');
+      onSuccess(); // Close the modal on success
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

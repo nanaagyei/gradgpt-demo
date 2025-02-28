@@ -1,10 +1,10 @@
 import { create } from 'zustand';
-import { supabase } from '../lib/supabase';
+import { supabase, Profile } from '../lib/supabase';
 import toast from 'react-hot-toast';
 
 interface AuthState {
   user: any;
-  profile: any;
+  profile: Profile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
@@ -23,7 +23,9 @@ export const useAuthStore = create<AuthState>((set) => ({
         password,
       });
       if (error) throw error;
+
       set({ user: data.user });
+      await useAuthStore.getState().fetchProfile(); // Fetch the user profile after sign-in
       toast.success('Signed in successfully!');
     } catch (error: any) {
       toast.error(error.message);
@@ -36,8 +38,22 @@ export const useAuthStore = create<AuthState>((set) => ({
         email,
         password,
       });
-      if (error) throw error;
+      if (error || !data.user) throw error || new Error("User data is null");
+
       set({ user: data.user });
+
+      // Create a new profile in the database
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: data.user.id,
+          email: data.user.email,
+          subscription_status: 'trialing', // Default status
+          subscription_plan: 'basic', // Default plan
+        });
+
+      if (profileError) throw profileError;
+
       toast.success('Account created successfully!');
     } catch (error: any) {
       toast.error(error.message);

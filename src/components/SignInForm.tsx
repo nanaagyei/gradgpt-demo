@@ -1,8 +1,13 @@
 import React from 'react';
 import { LogIn } from 'lucide-react';
 import { useAuthStore } from '../stores/authStore';
+import toast from 'react-hot-toast';
 
-export default function SignInForm() {
+interface SignInFormProps {
+  onSuccess: () => void;
+}
+
+export default function SignInForm({ onSuccess }: SignInFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -14,6 +19,10 @@ export default function SignInForm() {
 
     try {
       await signIn(email, password);
+      toast.success('Signed in successfully!');
+      onSuccess(); // Close the modal on success
+    } catch (error: any) {
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

@@ -7,6 +7,7 @@ import Pricing from './components/Pricing';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Chat from './components/Chat';
+import MeetTheTeam from './components/MeetTheTeam';
 
 function App() {
   const { user, fetchProfile } = useAuthStore();
@@ -26,6 +27,7 @@ function App() {
         <Features />
         <Pricing />
         <Testimonials />
+        <MeetTheTeam />
         <Contact />
       </div>
         </>

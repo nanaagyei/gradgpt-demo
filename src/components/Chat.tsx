@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Send, Bot, User } from 'lucide-react';
 import { useChat } from '../hooks/useChat';
 import { useAuthStore } from '../stores/authStore';
+import Markdown from 'react-markdown';
 
 export default function Chat() {
   const { user } = useAuthStore();
@@ -44,7 +45,13 @@ export default function Chat() {
                   : 'bg-purple-600 text-white'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+              {msg.type === 'assistant' ? (
+                <div className="text-sm whitespace-pre-wrap">  
+                  <Markdown>{msg.text}</Markdown>
+                </div>
+              ) : (
+                <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+              )}
             </div>
             {msg.type === 'user' && (
               <div className="flex-shrink-0">

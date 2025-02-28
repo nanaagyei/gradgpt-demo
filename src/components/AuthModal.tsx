@@ -35,7 +35,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   {isSignIn ? 'Sign in to GradGPT' : 'Create your account'}
                 </h3>
                 
-                {isSignIn ? <SignInForm /> : <SignUpForm />}
+                {isSignIn ? (
+                  <SignInForm onSuccess={onClose} />
+                ) : (
+                  <SignUpForm onSuccess={onClose} />
+                )}
                 
                 <div className="mt-6 text-center text-sm">
                   <span className="text-gray-600">
